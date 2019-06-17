@@ -7,18 +7,8 @@ theres the ability for users to select the animation speed and smoothness to thr
 
 clicking the clock also resets it
 
-
-# Config Vars:
-switch the formurl variable in Modular.js any custom url
-
-index.php file redirects to Modular.html
-
 # Other:
 customizable defaults are within the top of the Modular.js file
-
-the picture file for the clock background is in the #clock selector css background property
-
-formurl: the customizable url
 
 radius: radius to match the circle background
 
@@ -36,7 +26,7 @@ CONTAINER_SECONDS = 700;
 CONTAINER_MINUTES = 701;
 CONTAINER_HOURS = 702;
 
-References:
+# References:
 
 Clock css:
 https://cssanimation.rocks/clocks/
