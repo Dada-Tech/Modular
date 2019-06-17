@@ -4,7 +4,8 @@ Modular Arithmetic
 */
 
 //website URL for ajax/php
-var formurl = "http://localhost:8888/Modular/Modular.php";
+//var formurl = "http://localhost:8888/Modular/Modular.php";
+var formurl = "https://modular-arithmetic.herokuapp.com";
 
 //radius to match the circle background
 var radius = 230;
