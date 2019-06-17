@@ -5,7 +5,7 @@ Modular Arithmetic
 
 //website URL for ajax/php
 //var formurl = "http://localhost:8888/Modular/Modular.php";
-var formurl = "https://modular-arithmetic.herokuapp.com/Modular";
+var formurl = "https://modular-arithmetic.herokuapp.com";
 
 //radius to match the circle background
 var radius = 230;
@@ -27,6 +27,13 @@ var DIVISOR_MAX = 60;
 var CONTAINER_SECONDS = 700;
 var CONTAINER_MINUTES = 701;
 var CONTAINER_HOURS = 702;
+
+
+//Form Submission
+var errormsg = "error: NaNP";
+var div_by_zero_msg = "error: cannot divide by 0";
+
+
 
 document.write("<div class='banner1'>");
 
@@ -82,17 +89,17 @@ document.write("</div>");
 document.write("</div>");
 
 document.write("<div class='formwrapper'>");
-document.write("<form class='myforms' id='dividendForm' medthod='POST'>");
-document.write("<input class='valid' id='dividendAmount' name='dividendAmount' type='text' onfocus='this.value=\"\"' value='Enter the dividend:'>");
+document.write("<form class='myforms' id='dividendForm'>");
+document.write("<input class='valid' id='dividendAmount' name='dividendAmount' type='text' placeholder='Enter the dividend:'>");
 document.write("</form>");
 document.write("</div>");
 
 document.write("<div id='resultwrapper'><span id='resultdividend'>0</span> mod <span id='resultdivisor'>12</span> = <span id='result'>0</span></div>");
 
 document.write("<div class='formwrapper'>");
-document.write("<form class='myforms' id='divisorForm' medthod='POST'>");
+document.write("<form class='myforms' id='divisorForm'>");
 document.write("<input type='hidden' name='form1dividend'>");
-document.write("<input class='valid' id='divisorAmount' name='divisorAmount' type='text' onfocus='this.value=\"\"' value='Enter the divisor:'>");
+document.write("<input class='valid' id='divisorAmount' name='divisorAmount' type='text' placeholder='Enter the divisor:'>");
 document.write("</form>");
 document.write("</div>");
 
@@ -109,6 +116,46 @@ var containersSec = document.querySelectorAll('.seconds-container');
 var containersMin = document.querySelectorAll('.minutes-container');
 var containersHour = document.querySelectorAll('.hours-container');
 
+
+dividend.addEventListener("input",updateDividend);
+divisor.addEventListener("input",updateDivisor);
+
+//clicking on the clock also resets, could eventually have numbers clickable
+document.getElementById("clock").addEventListener("click",resetAll);
+
+
+
+//form submission
+$( "#divisorForm" ).submit(function( event ) {
+    event.preventDefault();
+    updateResult(dividend.value,divisor.value);
+});
+
+$( "#dividendForm" ).submit(function( event ) {
+    event.preventDefault();
+    updateResult(dividend.value,divisor.value);
+});
+
+
+//result calculation
+function updateResult(form_dividend,form_divisor) {
+    console.log([form_dividend,form_divisor]);
+    if ((form_divisor !== "0") && (form_divisor>0) && (form_dividend>=0)) {
+        result.innerHTML = form_dividend % form_divisor;
+    } else if (form_divisor === "0") {
+        result.innerHTML = div_by_zero_msg;
+    } else {
+        result.innerHTML = errormsg;
+    }
+
+    populateNumbers(divisor.value);
+
+    moveContainer(dividend.value, CONTAINER_MINUTES);
+    moveContainer(Math.floor(dividend.value / divisor.value), CONTAINER_HOURS);
+
+
+}
+
 //display dividend value
 function updateDividend() {
     if(verifyInput(dividend)) {
@@ -122,13 +169,6 @@ function updateDivisor() {
         document.getElementById("resultdivisor").innerHTML = divisor.value;
     }
 }
-
-dividend.addEventListener("input",updateDividend);
-divisor.addEventListener("input",updateDivisor);
-
-//clicking on the clock also resets, could eventually have numbers clickable
-document.getElementById("clock").addEventListener("click",resetAll);
-
 
 //sets the numbers on the clock, spaces them out accordingly
 function populateNumbers(numbercount) {
@@ -211,7 +251,7 @@ function resetAll() {
     setSpeed(1000);
 }
 
-//numbers only
+//input validation: numbers only
 function verifyInput(input) {
     if (/^[0-9]*$/.test(""+input.value) && (input.value!=="")){
         input.className = "valid";
@@ -224,89 +264,7 @@ function verifyInput(input) {
     }
 }
 
-//FORM 1. Dividend form
-$(document).ready(function (e){
-    $("#dividendForm").on('submit',(function(e){
-        e.preventDefault();
-
-        if (!verifyInput(dividend)) {
-            return;
-        }
-
-        //constrain with min/max
-        if (dividend.value > DIVIDEND_MAX) {
-            dividend.value = DIVIDEND_MAX;
-            updateDividend();
-        } else if (dividend.value < 0) {
-            dividend.value = 0;
-            updateDividend();
-        }
-
-        //no form is sent
-
-    }));
-});
-
-
-//FORM 2. Divisor form
-$(document).ready(function (e){
-    $("#divisorForm").on('submit',(function(e){
-        e.preventDefault();
-
-        //both fields must be valid
-        if (!verifyInput(divisor) || !verifyInput(dividend)) {
-            return;
-        }
-
-        //constrain with max/min
-        if (divisor.value > DIVISOR_MAX) {
-            divisor.value = DIVISOR_MAX;
-            updateDivisor();
-        } else if (divisor.value < 0) {
-            divisor.value = 0;
-            updateDivisor();
-        }
-
-        //for the case where the input of the is disabled but still submitted via enter key
-        //disabled to catch spam submit
-        if(divisor.disabled===true) {
-            return;
-        }
-
-        //repoupulate the clock numbers
-        clocknumbers = document.forms["divisorForm"].divisorAmount.value;
-        populateNumbers(clocknumbers);
-
-        //store the dividend from form1 to send in form2
-        document.forms["divisorForm"].form1dividend.value = document.forms["dividendForm"].dividendAmount.value;
-
-        myForm = new FormData(this);
-        $.ajax({
-            url: formurl,
-            type: "POST",
-            data:  myForm,
-            contentType: false,
-            cache: false,
-            processData:false,
-            success: function(data){
-                console.log(data);
-                var phpReturnObj = JSON.parse(data);
-                result.innerHTML = phpReturnObj.result;
-                moveContainer(document.forms["dividendForm"].dividendAmount.value,CONTAINER_MINUTES);
-
-                //prevent a divide by zero error for the hours hand
-                if (document.forms["divisorForm"].divisorAmount.value === "0") {
-                    moveContainer(0,CONTAINER_HOURS);
-                } else {
-                    moveContainer(Math.floor(document.forms["dividendForm"].dividendAmount.value / document.forms["divisorForm"].divisorAmount.value), CONTAINER_HOURS);
-                }
-            },
-            error: function(){alert("an unexpected error occurred: form 2");}
-        });
-    }));
-});
-
-//separate function to separatley animate the seconds hand
+//separate function to separately animate the seconds hand
 function moveSecondHands() {
     var containers = document.querySelectorAll('.seconds-container');
     setInterval(function() {
@@ -399,3 +357,93 @@ function moveContainer(ticks,containerNum) {
     //pause input to prevent spam
     pauseInput(timeout);
 }
+
+
+
+
+
+
+/*
+//FORM 1. Dividend form
+$(document).ready(function (e){
+    $("#dividendForm").on('submit',(function(e){
+        e.preventDefault();
+
+        if (!verifyInput(dividend)) {
+            return;
+        }
+
+        //constrain with min/max
+        if (dividend.value > DIVIDEND_MAX) {
+            dividend.value = DIVIDEND_MAX;
+            updateDividend();
+        } else if (dividend.value < 0) {
+            dividend.value = 0;
+            updateDividend();
+        }
+
+        //no form is sent
+
+    }));
+});
+*/
+
+/*
+//FORM 2. Divisor form
+$(document).ready(function (e){
+    $("#divisorForm").on('submit',(function(e){
+        e.preventDefault();
+
+        //both fields must be valid
+        if (!verifyInput(divisor) || !verifyInput(dividend)) {
+            return;
+        }
+
+        //constrain with max/min
+        if (divisor.value > DIVISOR_MAX) {
+            divisor.value = DIVISOR_MAX;
+            updateDivisor();
+        } else if (divisor.value < 0) {
+            divisor.value = 0;
+            updateDivisor();
+        }
+
+        //for the case where the input of the is disabled but still submitted via enter key
+        //disabled to catch spam submit
+        if(divisor.disabled===true) {
+            return;
+        }
+
+        //repoupulate the clock numbers
+        clocknumbers = document.forms["divisorForm"].divisorAmount.value;
+        populateNumbers(clocknumbers);
+
+        //store the dividend from form1 to send in form2
+        document.forms["divisorForm"].form1dividend.value = document.forms["dividendForm"].dividendAmount.value;
+
+        myForm = new FormData(this);
+        $.ajax({
+            url: formurl,
+            type: "POST",
+            data:  myForm,
+            contentType: false,
+            cache: false,
+            processData:false,
+            success: function(data){
+                console.log(data);
+                var phpReturnObj = JSON.parse(data);
+                result.innerHTML = phpReturnObj.result;
+                moveContainer(document.forms["dividendForm"].dividendAmount.value,CONTAINER_MINUTES);
+
+                //prevent a divide by zero error for the hours hand
+                if (document.forms["divisorForm"].divisorAmount.value === "0") {
+                    moveContainer(0,CONTAINER_HOURS);
+                } else {
+                    moveContainer(Math.floor(document.forms["dividendForm"].dividendAmount.value / document.forms["divisorForm"].divisorAmount.value), CONTAINER_HOURS);
+                }
+            },
+            error: function(){alert("an unexpected error occurred: form 2");}
+        });
+    }));
+});
+*/
