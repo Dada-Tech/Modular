@@ -289,6 +289,7 @@ $(document).ready(function (e){
             cache: false,
             processData:false,
             success: function(data){
+                console.log(data);
                 var phpReturnObj = JSON.parse(data);
                 result.innerHTML = phpReturnObj.result;
                 moveContainer(document.forms["dividendForm"].dividendAmount.value,CONTAINER_MINUTES);
