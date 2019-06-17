@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="ce45ca3b-28e8-41b8-97c2-d17c247f37f6" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/Modular.js" beforeDir="false" afterPath="$PROJECT_DIR$/Modular.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/index.php" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -37,8 +36,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Modular.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="577">
-              <caret line="435" column="101" lean-forward="true" selection-start-line="435" selection-start-column="16" selection-end-line="435" selection-end-column="101" />
+            <state relative-caret-position="338">
+              <caret line="366" column="29" lean-forward="true" selection-start-line="366" selection-start-column="29" selection-end-line="366" selection-end-column="29" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
               </folding>
@@ -60,8 +59,13 @@
       <find>divisor</find>
       <find>dividendAmount</find>
       <find>moveContainer</find>
-      <find>updateResult</find>
       <find>dividend.value</find>
+      <find>clocknumbers</find>
+      <find>form_divisor</find>
+      <find>updateDivisor</find>
+      <find>updateResult</find>
+      <find>timeout</find>
+      <find>pauseInput</find>
     </findStrings>
     <replaceStrings>
       <replace>form_result</replace>
@@ -92,9 +96,9 @@
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="y" value="24" />
-    <option name="width" value="720" />
-    <option name="height" value="827" />
+    <option name="y" value="23" />
+    <option name="width" value="1155" />
+    <option name="height" value="748" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -148,12 +152,12 @@
       <updated>1560764478255</updated>
       <workItem from="1560764480996" duration="3646000" />
       <workItem from="1560768607526" duration="712000" />
-      <workItem from="1560769506744" duration="11364000" />
+      <workItem from="1560769506744" duration="15383000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="15722000" />
+    <option name="totallyTimeSpent" value="19741000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="827" extended-state="6" />
@@ -325,8 +329,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Modular.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="577">
-          <caret line="435" column="101" lean-forward="true" selection-start-line="435" selection-start-column="16" selection-end-line="435" selection-end-column="101" />
+        <state relative-caret-position="338">
+          <caret line="366" column="29" lean-forward="true" selection-start-line="366" selection-start-column="29" selection-end-line="366" selection-end-column="29" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
           </folding>
