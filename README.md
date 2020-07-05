@@ -1,5 +1,5 @@
 # Build
-Open the Casiono.html in browser.
+Open the Modular.html in browser.
 
 the index.php file is just used for hosting on heroku
 
