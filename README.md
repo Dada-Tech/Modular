@@ -1,3 +1,8 @@
+# Build
+Open the Casiono.html in browser.
+
+the index.php file is just used for hosting on heroku
+
 # About:
 Modular Arithmetic visualization tool. using only POSITIVE integers
 
